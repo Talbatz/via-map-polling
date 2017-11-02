@@ -3,11 +3,11 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Via NYC Votes</title>
+  <title>Via NYC Expansion Poll</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta property="og:title" content="Via Expansion Poll" />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://kevinlizarazo.com/test/via" />
+  <meta property="og:url" content="https://kevinlizarazo.com/work/via" />
   <meta property="og:image" content="#" />
   <meta property="og:description" content="Vote for Via's next neighborhood expansion!" />
   <!--Bootstrap-->
@@ -57,8 +57,9 @@
     }
     .leaflet-popup-content-wrapper {
       background-color: #1FB7E9;
+      z-index: 414160;
       color: white;
-      height: 200px;
+      height: 190px;
       width: 275px;
       margin: 10px 10px 10px 10px;
       text-align: center;
@@ -88,12 +89,12 @@
       <div id="map"></div>
       <div id="overlay">
         <h1>Where should Via expand next?</h1>
-        <h4>Click on a neighborhood and enter your email address to vote!</h4>
+        <h4>Click on a region and enter your email address to vote!</h4>
       </div>
   </div>
   
 
-  <script src="neighborhoods.geojson" type="text/javascript"></script>
+<!--   <script src="neighborhoods.geojson" type="text/javascript"></script> -->
   <script src="boroughs.geojson" type="text/javascript"></script>
   <script src="data.geojson" type="text/javascript"></script>
 
@@ -136,21 +137,25 @@
 
     function onEachFeature(feature, layer) {
 
-        var nabe = feature.properties.neighborhood;
-        var district = feature.properties.communityDistrict;
+        var name = feature.properties.name;
         var container = $('<div />');
         // Delegate all event handling for the container itself and its contents to the container
+
+
         container.on('click', '#vote', function(event) {
             event.preventDefault();
-            window.open('https://docs.google.com/forms/d/e/1FAIpQLScRANi6j0ylJM6O_3A9iRzws1JJBOIDjqLoGf7d8cDg8b6cHg/formResponse?usp=pp_url&ifq&entry.473915152='+nabe+'&entry.183451837='+$('#email').val()+'&submit=submit', '_blank');
+            window.open('https://docs.google.com/forms/d/e/1FAIpQLScRANi6j0ylJM6O_3A9iRzws1JJBOIDjqLoGf7d8cDg8b6cHg/formResponse?usp=pp_url&ifq&entry.473915152='+name+'&entry.183451837='+$('#email').val()+'&submit=submit', '_blank');
         });
-        container.html(`<h3>` + nabe + `</h3><p>Enter your email below:</p><input type="email" size="32" maxLength="32" required placeholder="email@example.com" id="email" style="color:black;"></input><form id="vote"><button type="submit" id="submit" class="btn btn-default btn-sm" style="margin-top: 12px;">Submit</button></form>`);
+        container.html(`<h4>` + name + `</h3><p>Enter your email below:</p><input type="email" size="32" maxLength="32" required placeholder="email@example.com" id="email" style="color:black;"></input><form id="vote"><button type="submit" id="submit" class="btn btn-default btn-sm" style="margin-top: 12px;">Submit</button></form>`);
         layer.bindPopup(container[0]);
+
+
 
         layer.on({
          mouseover: highlightFeature,
          mouseout: resetHighlight
          });
+        
 
     }
 
@@ -160,11 +165,17 @@
       "color": "#1FB7E9"
     }
 
-    var subStyle = {
-      "fillColor":"#faebd7",
-      "fillOpacity": "0.0",
-      "color": "#"
-    }
+    // var subStyle = {
+    //   "fillColor":"#faebd7",
+    //   "fillOpacity": "0.0",
+    //   "color": "#"
+    // }
+  
+    // data = L.geoJSON(neighborhoods, {
+    //   style: subStyle,
+    //   onEachFeature: onEachFeature,
+    //   filter: nabe
+    // }).addTo(map);
 
     data = L.geoJSON(boroughs, {
       style: baseStyle,
@@ -174,21 +185,14 @@
 
     data = L.geoJSON(districts, {
       style: baseStyle,
-      // onEachFeature: onEachFeature,
+      onEachFeature: onEachFeature,
       filter: boro_cb
     }).addTo(map);
 
-  
-    data = L.geoJSON(neighborhoods, {
-      style: subStyle,
-      onEachFeature: onEachFeature,
-      filter: nabe
-    }).addTo(map);
 
-
-    function nabe(feature){
-      if (feature.properties.borough === "Queens" || feature.properties.borough === "Bronx") return true
-    }
+    // function nabe(feature){
+    //   if (feature.properties.borough === "Queens" || feature.properties.borough === "Bronx") return true
+    // }
 
     function boro(feature){
       if (feature.properties.BoroName === "Staten Island") return true
