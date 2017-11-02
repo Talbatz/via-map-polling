@@ -106,16 +106,16 @@
         attribution: '©OpenStreetMap, ©CartoDB'
     }).addTo(map);
 
-    var positronLabels = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png', {
-        attribution: '©OpenStreetMap, ©CartoDB',
-        pane: 'labels'
-    }).addTo(map);
+    // var positronLabels = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}.png', {
+    //     attribution: '©OpenStreetMap, ©CartoDB',
+    //     pane: 'labels'
+    // }).addTo(map);
 
     //Add a basemap
     L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v9/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoia2xpemFyYXpvIiwiYSI6ImNqOWV1dmtjajJkbjQzM295ZjQyODQ4NnAifQ.S8j7eLjcztK2IlIsB4_e0w', {
         attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
         maxZoom: 18,
-        id: 'mapbox.light-v9',
+        id: 'mapbox.light-v9_nolabels',
         accessToken: 'pk.eyJ1Ijoia2xpemFyYXpvIiwiYSI6ImNqOWV1dmtjajJkbjQzM295ZjQyODQ4NnAifQ.S8j7eLjcztK2IlIsB4_e0w'
     }).addTo(map);
 
