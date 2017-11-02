@@ -112,10 +112,10 @@
     }).addTo(map);
 
     //Add a basemap
-    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+    L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v9/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoia2xpemFyYXpvIiwiYSI6ImNqOWV1dmtjajJkbjQzM295ZjQyODQ4NnAifQ.S8j7eLjcztK2IlIsB4_e0w', {
         attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
         maxZoom: 18,
-        id: 'mapbox.light_nolabels',
+        id: 'mapbox.light-v9',
         accessToken: 'pk.eyJ1Ijoia2xpemFyYXpvIiwiYSI6ImNqOWV1dmtjajJkbjQzM295ZjQyODQ4NnAifQ.S8j7eLjcztK2IlIsB4_e0w'
     }).addTo(map);
 
@@ -135,7 +135,7 @@
 
     function onEachFeature(feature, layer) {
 
-        console.log("testing. layer added: " + feature.properties.neighborhood);
+        console.log("layer added: " + feature.properties.neighborhood);
         var nabe = feature.properties.neighborhood;
         var container = $('<div />');
         // Delegate all event handling for the container itself and its contents to the container
