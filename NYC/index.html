@@ -1,0 +1,190 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Via NYC Expansion Poll</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta property="og:title" content="Via Expansion Poll" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://kevinlizarazo.com/work/via" />
+  <meta property="og:image" content="#" />
+  <meta property="og:description" content="Vote for Via's next neighborhood expansion!" />
+  <!--Bootstrap-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+  <!--leaflet-->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
+   integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
+   crossorigin=""/>
+   <!-- Make sure you put this AFTER Leaflet's CSS -->
+  <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
+   integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
+   crossorigin=""></script>
+  <!--Fonts-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
+  <script   src="https://code.jquery.com/jquery-2.2.3.min.js"   integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="   crossorigin="anonymous"></script>
+  <style>
+
+    html, body, #container {
+      height: 100%;
+      overflow: hidden;
+      width: 100%;
+      font-family: 'Roboto', sans-serif;
+    }
+    h1 {
+      font-size: 30px;
+    }
+    #container {
+      position: relative;
+    }
+    #map {
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      height: 100%;
+      width: auto;
+    }
+    #overlay {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      height: 120px;
+      width: 550px;
+      z-index: 314159;
+      background-color: #1FB7E9;
+      color: white;
+      padding: 0px 20px 20px 20px;
+    }
+    .leaflet-left {
+      padding-top:130px;
+    }
+    .leaflet-popup-content-wrapper {
+      background-color: #1FB7E9;
+      z-index: 414160;
+      color: white;
+      height: 190px;
+      width: 275px;
+      margin: 10px 10px 10px 10px;
+      text-align: center;
+      font-family: 'Roboto', sans-serif;
+    }
+    @media screen and (max-width: 600px) { 
+      #overlay{
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100px;
+      }
+      #overlay h1 {
+        font-size: 20px;
+      }
+      #overlay h4 {
+        font-size: 16px;
+      }
+    }
+
+
+  </style>
+</head>
+
+<body>
+  <div id="container">
+      <div id="map"></div>
+      <div id="overlay">
+        <h1>Where should Via expand to next?</h1>
+        <h4>Click on a region and enter your email to vote!</h4>
+      </div>
+  </div>
+  
+
+  <script src="boroughs.geojson" type="text/javascript"></script>
+  <script src="data.geojson" type="text/javascript"></script>
+  <script src="config.js" type="text/javascript"></script>
+
+  <script>
+    var key = config.LEAFLET_KEY;
+    var map = L.map('map').setView([40.6993475,-73.972668], 11); //Initialize the map
+    map.createPane('labels');
+    map.getPane('labels').style.zIndex = 650;
+    map.getPane('labels').style.pointerEvents = 'none';
+    var positron = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
+        attribution: '©OpenStreetMap, ©CartoDB'
+    }).addTo(map);
+
+    //Add a basemap
+    L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v9/tiles/256/{z}/{x}/{y}?access_token='+key, {
+        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+        maxZoom: 18,
+        id: 'mapbox.light-v9_nolabels',
+        accessToken: key
+    }).addTo(map);
+
+  // Set hover colors
+    function highlightFeature(e) {
+      var layer = e.target;
+      layer.setStyle({
+      weight: 2,
+      opacity: 1,
+      fillColor: 'white'
+      });
+    }
+  // A function to reset the colors when a neighborhood is not longer 'hovered'
+    function resetHighlight(e) {
+      data.resetStyle(e.target);
+    }
+
+    function onEachFeature(feature, layer) {
+
+        var name = feature.properties.name;
+        var container = $('<div />');
+        // Delegate all event handling for the container itself and its contents to the container
+
+
+        container.on('click', '#vote', function(event) {
+            event.preventDefault();
+            window.open('https://docs.google.com/forms/d/e/1FAIpQLSe0Oq9RayU2HF0uJQgvMU96iAA9SEa46VUuIlO__4TYXPc2MQ/formResponse?usp=pp_url&ifq&entry.473915152='+name+'&entry.183451837='+$('#email').val()+'&submit=submit', '_blank');
+        });
+        container.html(`<h4>` + name + `</h3><p>Enter your email below:</p><input type="email" size="32" maxLength="32" required placeholder="email@example.com" id="email" style="color:black;"></input><form id="vote"><button type="submit" id="submit" class="btn btn-default btn-sm" style="margin-top: 12px;">Submit</button></form>`);
+        layer.bindPopup(container[0]);
+
+
+
+        layer.on({
+         mouseover: highlightFeature,
+         mouseout: resetHighlight
+         });
+        
+
+    }
+
+    var baseStyle = {
+      "fillColor":"#faebd7",
+      "fillOpacity": "0.8",
+      "color": "#1FB7E9"
+    }
+
+    data = L.geoJSON(boroughs, {
+      style: baseStyle,
+      onEachFeature: onEachFeature,
+      filter: boro
+    }).addTo(map);
+
+    data = L.geoJSON(districts, {
+      style: baseStyle,
+      onEachFeature: onEachFeature,
+      filter: boro_cb
+    }).addTo(map);
+
+    function boro(feature){
+      if (feature.properties.BoroName === "Staten Island") return true
+    }
+
+    function boro_cb(feature){
+      if ((parseInt(feature.properties.communityDistrict) > 200 && parseInt(feature.properties.communityDistrict) < 300) || (parseInt(feature.properties.communityDistrict) > 400 && parseInt(feature.properties.communityDistrict) < 500))  return true
+    }
+
+  </script>
+
+</body>
+
+</html>
