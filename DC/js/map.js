@@ -48,7 +48,7 @@ function onEachFeature(feature, layer) {
     layer.bindPopup(container[0]);
   } 
   else {
-    container.html(`<h4>` + name);
+    container.html(`<h4>` + name + `<img src="img/Via_Logo_White_Stacked.png"/>`);
     layer.bindPopup(container[0]);
   }
 
