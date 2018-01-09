@@ -1,5 +1,5 @@
 var key = config.LEAFLET_KEY;
-var map = L.map('map').setView([38.91211241043375,-77.02868700000005], 13); //Initialize the map
+var map = L.map('map').setView([38.91211241043375,-77.02868700000005], 12); //Initialize the map
 map.createPane('labels');
 map.getPane('labels').style.zIndex = 650;
 map.getPane('labels').style.pointerEvents = 'none';
