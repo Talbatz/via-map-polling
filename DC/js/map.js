@@ -44,11 +44,11 @@ function onEachFeature(feature, layer) {
         event.preventDefault();
         window.open('https://docs.google.com/forms/d/e/1FAIpQLSe0Oq9RayU2HF0uJQgvMU96iAA9SEa46VUuIlO__4TYXPc2MQ/formResponse?usp=pp_url&ifq&entry.473915152='+name+'&entry.183451837='+$('#email').val()+'&submit=submit', '_blank');
     });
-    container.html(name + `<p>Enter your email below:</p><input type="email" size="32" maxLength="32" required placeholder="email@example.com" id="email" style="color:black;"></input><form id="vote"><button type="submit" id="submit" class="btn btn-default btn-sm" style="margin-top: 12px;">Submit</button></form>`);
+    container.html(`<h4>` + name + `</h3><p>Enter your email below:</p><input type="email" size="32" maxLength="32" required placeholder="email@example.com" id="email" style="color:black;"></input><form id="vote"><button type="submit" id="submit" class="btn btn-default btn-sm" style="margin-top: 12px;">Submit</button></form>`);
     layer.bindPopup(container[0]);
   } 
   else {
-    container.html(`<img src="img/Via_Logo_White_Stacked.png" height="100" width="46"/>` + name);
+    container.html(`<img src="img/Via_Logo_White_Stacked.png" height="100"/> <h4>` + name + `</h4>`);
     layer.bindPopup(container[0]);
   }
 
