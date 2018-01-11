@@ -39,13 +39,18 @@ function onEachFeature(feature, layer) {
   var name = feature.properties.Name;
   var container = $('<div />');
 
-  if (name !== "Current Service Area"){
+  if (name !== "Current Service Area" && name !== "NO VOTE"){
     container.on('click', '#vote', function(event) {
         event.preventDefault();
         window.open('https://docs.google.com/forms/d/e/1FAIpQLSe0Oq9RayU2HF0uJQgvMU96iAA9SEa46VUuIlO__4TYXPc2MQ/formResponse?usp=pp_url&ifq&entry.473915152='+name+'&entry.183451837='+$('#email').val()+'&submit=submit', '_blank');
     });
     container.html(`<h4>` + name + `</h3><p>Enter your email below:</p><input type="email" size="32" maxLength="32" required placeholder="email@example.com" id="email" style="color:black;"></input><form id="vote"><button type="submit" id="submit" class="btn btn-default btn-sm" style="margin-top: 12px;">Submit</button></form>`);
     layer.bindPopup(container[0]);
+  } 
+  else if (name == "NO VOTE"){
+    container.on('click', function(event){
+        event.preventDefault;
+    });
   } 
   else {
     container.html(`<img src="img/Via_Logo_White_Stacked.png" height="100"/> <h4>` + name + `</h4>`);
@@ -59,20 +64,27 @@ function onEachFeature(feature, layer) {
   
 }
 
-var expansionZone = {
-  "fillColor":"#faebd7",
-  "fillOpacity": "0.8",
-  "color": "#1FB7E9"
-}
-
 var currentZone = {
   "fillColor":"#faebd7",
   "fillOpacity": "0.8",
   "color": "#f59121"
 }
 
-data = L.geoJSON(neighborhoods, {
-  style: expansionZone,
+data = L.geoJSON(expansions, {
+  style: function(feature){
+    if (feature.properties.Name == "NO VOTE"){
+      return {  "fillColor":"#faebd7",
+                "fillOpacity": "0.0",
+                "color": "#1FB7E9"  
+             }
+    }
+    else {
+      return {  "fillColor":"#faebd7",
+                "fillOpacity": "0.8",
+                "color": "#1FB7E9"
+             }
+    }
+  },
   onEachFeature: onEachFeature
 }).addTo(map);
 
