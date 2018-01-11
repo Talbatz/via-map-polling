@@ -2,12 +2,19 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-PRWJMH');</script>
+<!-- End Google Tag Manager -->
   <meta charset="utf-8">
   <title>Via NYC Expansion Poll</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta property="og:title" content="Via Expansion Poll" />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://kevinlizarazo.com/work/via" />
+  <meta property="og:url" content="https://ridewithvia.com/nyc-vote/" />
   <meta property="og:image" content="#" />
   <meta property="og:description" content="Vote for Via's next neighborhood expansion!" />
   <!--Bootstrap-->
@@ -22,16 +29,40 @@
    crossorigin=""></script>
   <!--Fonts-->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
-  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <!--<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">-->
 
   <script   src="https://code.jquery.com/jquery-2.2.3.min.js"   integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="   crossorigin="anonymous"></script>
+  <link rel="icon" href="../content/img/icon_address.png" />
+
   <style>
+
+  /* Fonts */
+
+@font-face {
+    font-family: 'AccordReg';
+    src: url('../content/fonts/AccordReg.eot'); /* IE9 Compat Modes */
+    src: url('../content/fonts/AccordReg.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+        url('../content/fonts/AccordReg.woff') format('woff'), /* Modern Browsers */
+        url('../content/fonts/AccordReg.ttf')  format('truetype'), /* Safari, Android, iOS */
+        url('../content/fonts/AccordReg.svg#60709f4cba775a4488287582b92db6dd') format('svg'); /* Legacy iOS */
+} 
+
+@font-face {
+    font-family: 'AccordMedium';
+    src: url('../content/fonts/AccordMedium.eot'); /* IE9 Compat Modes */
+    src: url('../content/fonts/AccordMedium.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+        url('../content/fonts/AccordMedium.woff') format('woff'), /* Modern Browsers */
+        url('../content/fonts/AccordMedium.ttf')  format('truetype'), /* Safari, Android, iOS */
+        url('../content/fonts/AccordMedium.svg#60709f4cba775a4488287582b92db6dd') format('svg'); /* Legacy iOS */
+} 
+
 
     html, body, #container {
       height: 100%;
       overflow: hidden;
       width: 100%;
-      font-family: 'Roboto', sans-serif;
+      font-family: 'AccordReg', sans-serif;
+      font-size:16px;
     }
     h1 {
       font-size: 30px;
@@ -62,11 +93,21 @@
       background-color: #1FB7E9;
       z-index: 414160;
       color: white;
-      height: 190px;
+      height: auto;
       width: 275px;
-      margin: 10px 10px 10px 10px;
+      margin: 0px;
       text-align: center;
-      font-family: 'Roboto', sans-serif;
+      border:1px solid #fff;
+      font-family: 'AccordReg', sans-serif;
+    }
+    .leaflet-popup-tip{
+      background-color: #fff;
+    }
+    .leaflet-container a.leaflet-popup-close-button{
+      color:#eee;
+    }
+    .leaflet-container a.leaflet-popup-close-button:hover{
+      color:#fff;
     }
     @media screen and (max-width: 600px) { 
       #overlay{
@@ -88,6 +129,11 @@
 </head>
 
 <body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PRWJMH"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
   <div id="container">
       <div id="map"></div>
       <div id="overlay">
@@ -97,13 +143,232 @@
   </div>
   
 
+  <script src="airports.geojson" type="text/javascript"></script>
   <script src="boroughs.geojson" type="text/javascript"></script>
   <script src="data.geojson" type="text/javascript"></script>
-  <script src="config.js" type="text/javascript"></script>
+
 
   <script>
-    var key = config.LEAFLET_KEY;
     var map = L.map('map').setView([40.6993475,-73.972668], 11); //Initialize the map
+
+// create a red polyline from an array of LatLng points
+var latlngs = [
+    [40.68680,-74.00887],
+    [40.68272,-74.01571],
+    [40.67932,-74.02061],
+    [40.67279,-74.01899],
+    [40.66212,-74.01706],
+    [40.64147,-74.03734],
+    [40.63575,-74.04017],
+    [40.62989,-74.04257],
+    [40.62183,-74.04292],
+    [40.61300,-74.04051],
+    [40.60886,-74.03682],
+    [40.60485,-74.03227],
+    [40.60376,-74.02748],
+    [40.60371,-74.02270],
+    [40.60210,-74.01843],
+    [40.60127,-74.01381],
+    [40.59928,-74.00965],
+    [40.59638,-74.00480],
+    [40.58926,-74.00083],
+    [40.58508,-74.00089],
+    [40.58234,-74.00266],
+    [40.58273,-74.00757],
+    [40.58135,-74.01248],
+    [40.57845,-74.01381],
+    [40.57487,-74.01304],
+    [40.57340,-74.00913],
+    [40.57292,-74.00623],
+    [40.57206,-74.00368],
+    [40.56977,-74.00187],
+    [40.57572,-73.93058],
+    [40.58097,-73.93120],
+    [40.58281,-73.91786],
+    [40.58466,-73.91328],
+    [40.58722,-73.90887],
+    [40.58718,-73.89959],
+    [40.57865,-73.89693],
+    [40.57624,-73.89495],
+    [40.57968,-73.87966],
+    [40.58448,-73.87594],
+    [40.60490,-73.88354],
+    [40.61984,-73.89766],
+    [40.62273,-73.89637],
+    [40.63371,-73.88195],
+    [40.64808,-73.87250],
+    [40.65406,-73.86236],
+    [40.65609,-73.86340],
+    [40.65779,-73.86487],
+    [40.66001,-73.85794],
+    [40.66349,-73.85884],
+    [40.66390,-73.85553],
+    [40.67177,-73.85754],
+    [40.67140,-73.86026],
+    [40.67935,-73.86230],
+    [40.67931,-73.86316],
+    [40.68252,-73.86405],
+    [40.68225,-73.86502],
+    [40.68207,-73.86593],
+    [40.68538,-73.86646],
+    [40.69129,-73.86791],
+    [40.69590,-73.86943],
+    [40.69746,-73.87054],
+    [40.69701,-73.87321],
+    [40.69651,-73.87435],
+    [40.69550,-73.87555],
+    [40.69450,-73.87616],
+    [40.69391,-73.87741],
+    [40.69288,-73.87797],
+    [40.69239,-73.88231],
+    [40.69108,-73.88874],
+    [40.69290,-73.89492],
+    [40.69697,-73.90040],
+    [40.70368,-73.91164],
+    [40.70943,-73.92207],
+    [40.71500,-73.92400],
+    [40.71857,-73.92421],
+    [40.71960,-73.92444],
+    [40.72593,-73.92780],
+    [40.72745,-73.92919],
+    [40.72806,-73.93132],
+    [40.72884,-73.93566],
+    [40.72979,-73.93800],
+    [40.73107,-73.93956],
+    [40.73359,-73.94073],
+    [40.73471,-73.94132],
+    [40.73541,-73.94197],
+    [40.73756,-73.93639],
+    [40.74678,-73.93453],
+    [40.74882,-73.93661],
+    [40.74938,-73.93615],
+    [40.75018,-73.93521],
+    [40.75087,-73.93442],
+    [40.75143,-73.93355],
+    [40.75172,-73.93218],
+    [40.75178,-73.93014],
+    [40.75183,-73.92657],
+    [40.75226,-73.92435],
+    [40.76891,-73.91071],
+    [40.76984,-73.91643],
+    [40.77037,-73.91749],
+    [40.77103,-73.91853],
+    [40.77408,-73.92273],
+    [40.77712,-73.92830],
+    [40.77754,-73.93004],
+    [40.77786,-73.93177],
+    [40.77814,-73.93338],
+    [40.77818,-73.93398],
+    [40.77810,-73.93469],
+    [40.77772,-73.93555],
+    [40.77685,-73.93652],
+    [40.77497,-73.93779],
+    [40.77363,-73.93792],
+    [40.77253,-73.93758],
+    [40.77169,-73.93503],
+    [40.77135,-73.93462],
+    [40.77091,-73.93464],
+    [40.77026,-73.93495],
+    [40.76961,-73.93555],
+    [40.76957,-73.93644],
+    [40.76822,-73.93956],
+    [40.76711,-73.94126],
+    [40.76481,-73.94337],
+    [40.75748,-73.94914],
+    [40.76064,-73.95559],
+    [40.76194,-73.95400],
+    [40.77092,-73.94621],
+    [40.77366,-73.94326],
+    [40.77607,-73.94144],
+    [40.78195,-73.94319],
+    [40.78327,-73.94252],
+    [40.78526,-73.93905],
+    [40.78808,-73.93633],
+    [40.78937,-73.93550],
+    [40.79070,-73.93544],
+    [40.79225,-73.93335],
+    [40.79382,-73.93075],
+    [40.79490,-73.92944],
+    [40.79665,-73.92863],
+    [40.80165,-73.92879],
+    [40.80316,-73.92955],
+    [40.80379,-73.92982],
+    [40.80446,-73.93027],
+    [40.80746,-73.93286],
+    [40.80798,-73.93314],
+    [40.80851,-73.93329],
+    [40.80952,-73.93364],
+    [40.81057,-73.93373],
+    [40.81953,-73.93311],
+    [40.83339,-73.93429],
+    [40.83470,-73.93413],
+    [40.83626,-73.93362],
+    [40.83817,-73.93254],
+    [40.84441,-73.92934],
+    [40.84798,-73.92707],
+    [40.85140,-73.92469],
+    [40.85901,-73.91850],
+    [40.86275,-73.91521],
+    [40.86614,-73.91217],
+    [40.86729,-73.91121],
+    [40.86843,-73.91053],
+    [40.86959,-73.91003],
+    [40.87084,-73.90974],
+    [40.87184,-73.90962],
+    [40.87264,-73.90994],
+    [40.87337,-73.91069],
+    [40.87397,-73.91170],
+    [40.87482,-73.91419],
+    [40.87549,-73.91739],
+    [40.87575,-73.91923],
+    [40.87621,-73.92065],
+    [40.87683,-73.92207],
+    [40.87743,-73.92325],
+    [40.87790,-73.92447],
+    [40.87812,-73.92511],
+    [40.87820,-73.92583],
+    [40.87802,-73.92655],
+    [40.87774,-73.92727],
+    [40.87729,-73.92808],
+    [40.87674,-73.92872],
+    [40.87317,-73.93123],
+    [40.86973,-73.93313],
+    [40.86894,-73.93357],
+    [40.86309,-73.93722],
+    [40.85452,-73.94382],
+    [40.85083,-73.94603],
+    [40.84780,-73.94721],
+    [40.83834,-73.95030],
+    [40.83232,-73.95266],
+    [40.82034,-73.96119],
+    [40.81600,-73.96467],
+    [40.81144,-73.96752],
+    [40.77133,-73.99487],
+    [40.76987,-73.99519],
+    [40.76353,-73.99986],
+    [40.76254,-74.00147],
+    [40.75164,-74.00890],
+    [40.74876,-74.00877],
+    [40.74494,-74.00969],
+    [40.74473,-74.00879],
+    [40.73895,-74.01035],
+    [40.72670,-74.01184],
+    [40.72163,-74.01272],
+    [40.72159,-74.01613],
+    [40.72033,-74.01651],
+    [40.71965,-74.01326],
+    [40.71901,-74.01338],
+    [40.71921,-74.01678],
+    [40.71056,-74.01837],
+    [40.70570,-74.01961],
+    [40.70148,-74.01616],
+    [40.69403,-74.01333]
+];
+
+var polygon = L.polygon(latlngs, {color: '#f59121'}).addTo(map);
+
+polygon.bindPopup("<img src='img/Via_Logo_White_Stacked.png' style='height:100px;' alt='Via' /><br /><h4>Current Service Area</h4>");
+
     map.createPane('labels');
     map.getPane('labels').style.zIndex = 650;
     map.getPane('labels').style.pointerEvents = 'none';
@@ -111,43 +376,49 @@
         attribution: '©OpenStreetMap, ©CartoDB'
     }).addTo(map);
 
-    //Add a basemap
-    L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v9/tiles/256/{z}/{x}/{y}?access_token='+key, {
+    L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v9/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoia2xpemFyYXpvIiwiYSI6ImNqOWV1dmtjajJkbjQzM295ZjQyODQ4NnAifQ.S8j7eLjcztK2IlIsB4_e0w', {
         attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
         maxZoom: 18,
         id: 'mapbox.light-v9_nolabels',
-        accessToken: key
+        accessToken: 'pk.eyJ1Ijoia2xpemFyYXpvIiwiYSI6ImNqOWV1dmtjajJkbjQzM295ZjQyODQ4NnAifQ.S8j7eLjcztK2IlIsB4_e0w'
     }).addTo(map);
 
-  // Set hover colors
+    // Set hover colors
     function highlightFeature(e) {
       var layer = e.target;
       layer.setStyle({
-      weight: 2,
+      weight: 3,
       opacity: 1,
       fillColor: 'white'
       });
     }
-  // A function to reset the colors when a neighborhood is not longer 'hovered'
+    // A function to reset the colors when a neighborhood is not longer 'hovered'
     function resetHighlight(e) {
-      data.resetStyle(e.target);
+      var layer = e.target;
+      layer.setStyle({
+      weight: 3,
+      opacity: 1,
+      fillColor: '#faebd7'
+      });
     }
 
     function onEachFeature(feature, layer) {
 
-        var name = feature.properties.name;
-        var container = $('<div />');
-        // Delegate all event handling for the container itself and its contents to the container
+      var name = feature.properties.name;
+      var container = $('<div />');
 
-
+      if (name !== "Current Service Area"){
         container.on('click', '#vote', function(event) {
             event.preventDefault();
             window.open('https://docs.google.com/forms/d/e/1FAIpQLSe0Oq9RayU2HF0uJQgvMU96iAA9SEa46VUuIlO__4TYXPc2MQ/formResponse?usp=pp_url&ifq&entry.473915152='+name+'&entry.183451837='+$('#email').val()+'&submit=submit', '_blank');
         });
         container.html(`<h4>` + name + `</h3><p>Enter your email below:</p><input type="email" size="32" maxLength="32" required placeholder="email@example.com" id="email" style="color:black;"></input><form id="vote"><button type="submit" id="submit" class="btn btn-default btn-sm" style="margin-top: 12px;">Submit</button></form>`);
         layer.bindPopup(container[0]);
-
-
+      } 
+      else {
+        container.html(`<img src="img/Via_Logo_White_Stacked.png" height="100"/> <h4>` + name + `</h4>`);
+        layer.bindPopup(container[0]);
+      }
 
         layer.on({
          mouseover: highlightFeature,
@@ -163,6 +434,12 @@
       "color": "#1FB7E9"
     }
 
+    var currentZone = {
+      "fillColor":"#faebd7",
+      "fillOpacity": "0.8",
+      "color": "#f59121"
+    }
+
     data = L.geoJSON(boroughs, {
       style: baseStyle,
       onEachFeature: onEachFeature,
@@ -173,6 +450,11 @@
       style: baseStyle,
       onEachFeature: onEachFeature,
       filter: boro_cb
+    }).addTo(map);
+
+    data = L.geoJSON(airports, {
+      style: currentZone,
+      onEachFeature: onEachFeature
     }).addTo(map);
 
     function boro(feature){
